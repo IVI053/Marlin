@@ -375,7 +375,7 @@
 * Arduino Mega pin assignment
 *
 ****************************************************************************************/
-#if MOTHERBOARD == 3 || MOTHERBOARD == 33 || MOTHERBOARD == 34 || MOTHERBOARD == 35 || MOTHERBOARD == 77 || MOTHERBOARD == 67
+#if MOTHERBOARD == 3 || MOTHERBOARD == 33 || MOTHERBOARD == 34 || MOTHERBOARD == 35 || MOTHERBOARD == 77 || MOTHERBOARD == 67 || MOTHERBOARD == 68
 #define KNOWN_BOARD 1
 
 //////////////////FIX THIS//////////////
@@ -391,7 +391,7 @@
 // #define RAMPS_V_1_0
 
 
-#if MOTHERBOARD == 33 || MOTHERBOARD == 34 || MOTHERBOARD == 35 || MOTHERBOARD == 77 || MOTHERBOARD == 67
+#if MOTHERBOARD == 33 || MOTHERBOARD == 34 || MOTHERBOARD == 35 || MOTHERBOARD == 77 || MOTHERBOARD == 67 || MOTHERBOARD == 68
 
   #define LARGE_FLASH true
 
@@ -472,12 +472,26 @@
     #define E1_DIR_PIN         34
     #define E1_ENABLE_PIN      30
 
+    #if MOTHERBOARD == 68
+      #define E2_STEP_PIN        23
+      #define E2_DIR_PIN         25
+      #define E2_ENABLE_PIN      40
+
+      #define E3_STEP_PIN        27
+      #define E3_DIR_PIN         29
+      #define E3_ENABLE_PIN      41
+
+      #define E4_STEP_PIN        43
+      #define E4_DIR_PIN         37
+      #define E4_ENABLE_PIN      42
+    #endif
+
     #define SDPOWER            -1
     #define SDSS               53
     #define LED_PIN            13
   #endif
 
-  #if MOTHERBOARD == 33 || MOTHERBOARD == 35 || MOTHERBOARD == 67
+  #if MOTHERBOARD == 33 || MOTHERBOARD == 35 || MOTHERBOARD == 67 || MOTHERBOARD == 68
     #define FAN_PIN            9 // (Sprinter config)
   #else
     #define FAN_PIN            4 // IO pin. Buffer needed
@@ -488,7 +502,7 @@
   #endif
 
   #if MOTHERBOARD == 35
-    #define CONTROLLERFAN_PIN  10 //Pin used for the fan to cool controller
+    #define CONTROLLERFAN_PIN  -1 //Pin used for the fan to cool controller
   #endif
 
   #define PS_ON_PIN          12
@@ -517,11 +531,28 @@
     #define HEATER_0_PIN       10
     #define HEATER_1_PIN       12
     #define HEATER_2_PIN       6
+  #elif MOTHERBOARD == 68
+    #define HEATER_2_PIN       16
+    #define HEATER_3_PIN       17
+    #define HEATER_4_PIN       4
+    #define HEATER_5_PIN       5
+    #define HEATER_6_PIN       6
+    #define HEATER_7_PIN       11
+  #else
+    #define HEATER_2_PIN       -1
   #endif
 
   #define TEMP_0_PIN         13   // ANALOG NUMBERING
   #define TEMP_1_PIN         15   // ANALOG NUMBERING
-  #define TEMP_2_PIN         -1   // ANALOG NUMBERING
+  #if MOTHERBOARD == 68
+    #define TEMP_2_PIN         12   // ANALOG NUMBERING
+    #define TEMP_3_PIN         11   // ANALOG NUMBERING
+    #define TEMP_4_PIN         10   // ANALOG NUMBERING
+    #define TC1                4    // ANALOG NUMBERING Thermo couple on Azteeg X3Pro
+    #define TC2                5    // ANALOG NUMBERING Thermo couple on Azteeg X3Pro
+  #else
+    #define TEMP_2_PIN         -1   // ANALOG NUMBERING
+  #endif
 
   #if MOTHERBOARD == 35
     #define HEATER_BED_PIN     -1    // NO BED
@@ -532,9 +563,8 @@
       #define HEATER_BED_PIN     8    // BED
     #endif
   #endif
+
   #define TEMP_BED_PIN       14   // ANALOG NUMBERING
-
-
 
   #ifdef NUM_SERVOS
     #define SERVO0_PIN         11
@@ -550,6 +580,10 @@
     #if NUM_SERVOS > 3
       #define SERVO3_PIN         4
     #endif
+  #endif
+
+  #if MOTHERBOARD == 68
+    #define BEEPER 33
   #endif
 
   #ifdef TEMP_STAT_LEDS
@@ -971,6 +1005,10 @@
 #undef MOTHERBOARD
 #define MOTHERBOARD 6
 #define SANGUINOLOLU_V_1_2
+
+#if defined(__AVR_ATmega1284P__)
+	#define LARGE_FLASH true
+#endif
 #endif
 #if MOTHERBOARD == 6
 #define KNOWN_BOARD 1
@@ -1295,6 +1333,90 @@
 
 #endif
 
+#if MOTHERBOARD == 72
+#define KNOWN_BOARD
+/*****************************************************************
+* Ultiboard v2.0 pin assignment
+******************************************************************/
+
+#ifndef __AVR_ATmega2560__
+ #error Oops!  Make sure you have 'Arduino Mega 2560' selected from the 'Tools -> Boards' menu.
+#endif
+
+#define X_STEP_PIN 25
+#define X_DIR_PIN 23
+#define X_STOP_PIN 22
+#define X_ENABLE_PIN 27
+
+#define Y_STEP_PIN 32
+#define Y_DIR_PIN 33
+#define Y_STOP_PIN 26
+#define Y_ENABLE_PIN 31
+
+#define Z_STEP_PIN 35
+#define Z_DIR_PIN 36
+#define Z_STOP_PIN 29
+#define Z_ENABLE_PIN 34
+
+#define HEATER_BED_PIN 4
+#define TEMP_BED_PIN 10
+
+#define HEATER_0_PIN  2
+#define TEMP_0_PIN 8
+
+#define HEATER_1_PIN 3
+#define TEMP_1_PIN 9
+
+#define HEATER_2_PIN -1
+#define TEMP_2_PIN -1
+
+#define E0_STEP_PIN         42
+#define E0_DIR_PIN          43
+#define E0_ENABLE_PIN       37
+
+#define E1_STEP_PIN         49
+#define E1_DIR_PIN          47
+#define E1_ENABLE_PIN       48
+
+#define SDPOWER            -1
+#define SDSS               53
+#define LED_PIN            8
+#define FAN_PIN            7
+#define PS_ON_PIN          -1
+#define KILL_PIN           -1
+#define SUICIDE_PIN        -1  //PIN that has to be turned on right after start, to keep power flowing.
+#define SAFETY_TRIGGERED_PIN     28 //PIN to detect the safety circuit has triggered
+#define MAIN_VOLTAGE_MEASURE_PIN 14 //Analogue PIN to measure the main voltage, with a 100k - 4k7 resitor divider.
+
+#define MOTOR_CURRENT_PWM_XY_PIN 44
+#define MOTOR_CURRENT_PWM_Z_PIN 45
+#define MOTOR_CURRENT_PWM_E_PIN 46
+//Motor current PWM conversion, PWM value = MotorCurrentSetting * 255 / range
+#define MOTOR_CURRENT_PWM_RANGE 2000
+#define DEFAULT_PWM_MOTOR_CURRENT  {1300, 1300, 1250}
+
+//arduino pin witch triggers an piezzo beeper
+#define BEEPER 18
+
+#define LCD_PINS_RS 20
+#define LCD_PINS_ENABLE 15
+#define LCD_PINS_D4 14
+#define LCD_PINS_D5 21
+#define LCD_PINS_D6 5
+#define LCD_PINS_D7 6
+
+//buttons are directly attached
+#define BTN_EN1 40
+#define BTN_EN2 41
+#define BTN_ENC 19  //the click
+
+#define BLEN_C 2
+#define BLEN_B 1
+#define BLEN_A 0
+
+#define SDCARDDETECT 39
+
+#endif//MOTHERBOARD == 72
 
 /****************************************************************************************
 * RUMBA pin assignment
@@ -1660,8 +1782,8 @@
 #define Z_DIR_PIN          28
 #define Z_STOP_PIN         30
 
-#define E_STEP_PIN         17
-#define E_DIR_PIN          21
+#define E0_STEP_PIN         17
+#define E0_DIR_PIN          21
 
 #define LED_PIN            -1
 
@@ -1672,15 +1794,16 @@
 
 #define HEATER_0_PIN       12 // (extruder)
 
-#define HEATER_1_PIN       16 // (bed)
+#define HEATER_BED_PIN     16 // (bed)
 #define X_ENABLE_PIN       19
 #define Y_ENABLE_PIN       24
 #define Z_ENABLE_PIN       29
-#define E_ENABLE_PIN       13
+#define E0_ENABLE_PIN      13
 
 #define TEMP_0_PIN          0   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 33 extruder)
-#define TEMP_1_PIN          5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
+#define TEMP_1_PIN         -1   
 #define TEMP_2_PIN         -1
+#define TEMP_BED_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)  
 #define SDPOWER            -1
 #define SDSS               4
 #define HEATER_2_PIN       -1
@@ -2305,7 +2428,7 @@
  #define X_STEP_PIN 14
  #define X_DIR_PIN 15
  #define X_ENABLE_PIN 24
- 
+
  //X endstop
  #define X_MIN_PIN 3
  #define X_MAX_PIN -1
@@ -2318,7 +2441,7 @@
  //Y endstop
  #define Y_MIN_PIN 2
  #define Y_MAX_PIN -1
- 
+
  //Z motor stepper
  #define Z_STEP_PIN 40
  #define Z_DIR_PIN 41
@@ -2327,7 +2450,7 @@
  //Z endstop
  #define Z_MIN_PIN 5
  #define Z_MAX_PIN -1
- 
+
  //Extruder 0 stepper
  #define E0_STEP_PIN 26
  #define E0_DIR_PIN 28
@@ -2354,7 +2477,7 @@
  #define HEATER_BED_PIN 22
  //Cheaptronic v1.0 hasent EXTRUDER 3
  #define HEATER_2_PIN -1
- 
+
  //Temperature sensors
  #define TEMP_0_PIN 15
  #define TEMP_1_PIN 14
